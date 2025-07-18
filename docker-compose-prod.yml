@@ -1,0 +1,13 @@
+version: '3'
+services:
+  petpost:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: petpost
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.petpost.rule=Host(`petpost.darmor.ca`)
+      - traefik.http.routers.petpost.entrypoints=web
+      - traefik.http.services.petpost.loadbalancer.server.port=80
