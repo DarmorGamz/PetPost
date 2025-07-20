@@ -30,9 +30,7 @@
 ## Introduction
 
 #### Demo Workflow
-<div align="center">
-  <video src=".docs/functional-demo/demo.mp4" width="720" height="480" controls></video>
-</div>
+![Video description](https://github.com/DarmorGamz/PetPost/blob/master/.docs/functional-demo/demo.mp4)
 
 #### UML Workflow
 <div align="center">
