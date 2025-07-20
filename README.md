@@ -29,6 +29,12 @@
 <!-- INTRODUCTION -->
 ## Introduction
 
+#### Demo Workflow
+<div align="center">
+  <video src=".docs/functional-demo/demo.mp4" width="720" height="480" controls></video>
+</div>
+
+#### UML Workflow
 <div align="center">
     <img src=".docs/uml.png" alt="Logo" width="650" height="400">
 </div>
