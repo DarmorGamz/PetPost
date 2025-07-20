@@ -45,4 +45,4 @@ services:
       - traefik.http.routers.petpost-api.entrypoints=web
       - traefik.http.routers.petpost-api.middlewares=stripapi
       - traefik.http.middlewares.stripapi.stripprefix.prefixes=/api
-      - traefik.http.services.petpost-api.loadbalancer.server.port=8000
+      - traefik.http.services.petpost-api.loadbalancer.server.port=8010

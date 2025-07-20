@@ -2,7 +2,7 @@ FROM nginx:alpine
 WORKDIR /app
 COPY app/public/. /usr/share/nginx/html/
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+COPY entrypoint-prod.sh /entrypoint-prod.sh
+RUN chmod +x /entrypoint-prod.sh
+ENTRYPOINT ["/entrypoint-prod.sh"]
 EXPOSE 80

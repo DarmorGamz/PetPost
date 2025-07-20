@@ -1,7 +1,7 @@
 version: '3'
 name: petpost
 services:
-  petpost-web:
+  web:
     build: 
       context: .
       dockerfile: Dockerfile.web.prod
@@ -13,8 +13,8 @@ services:
       - traefik.enable=true
       - traefik.http.routers.petpost-web.rule=Host(`petpost.darmor.ca`)
       - traefik.http.routers.petpost-web.entrypoints=web
-      - traefik.http.services.petpost-web.loadbalancer.server.port=80
-  petpost-api:
+      - traefik.http.services.petpost-web.loadbalancer.server.port=8010
+  api:
     build: 
       context: .
       dockerfile: Dockerfile.api.prod
@@ -28,4 +28,4 @@ services:
       - traefik.http.routers.petpost-api.entrypoints=web
       - traefik.http.routers.petpost-api.middlewares=stripapi
       - traefik.http.middlewares.stripapi.stripprefix.prefixes=/api
-      - traefik.http.services.petpost-api.loadbalancer.server.port=8000
+      - traefik.http.services.petpost-api.loadbalancer.server.port=8010
