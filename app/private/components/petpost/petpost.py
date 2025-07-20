@@ -5,7 +5,7 @@ import string
 
 class petpost:
     def __init__(self):
-        self.filename = 'pets.json'
+        self.filename = '/data/pets.json'
 
         # Ensure JSON file exists
         if not os.path.exists(self.filename):

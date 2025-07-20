@@ -36,6 +36,8 @@ services:
       context: .
       dockerfile: Dockerfile.api.dev
     container_name: petpost-api
+    volumes:
+      - ./app/data/:/data
     restart: unless-stopped
     labels:
       - traefik.enable=true
