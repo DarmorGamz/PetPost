@@ -3,3 +3,4 @@ uvicorn
 pydantic
 python-dotenv
 python-multipart
+boto3

@@ -15,7 +15,7 @@ def handle_get(request: Request):
 async def handle_post(request: Request):
     form = await request.form()
     body = {k: v for k, v in form.items() if not isinstance(v, UploadFile)}
-    files = {k: await v.read() for k, v in form.items() if isinstance(v, UploadFile)}
+    files = {k: v for k, v in form.items() if isinstance(v, UploadFile)}
     body.update(files)
 
     varsIn = dict(request.query_params)

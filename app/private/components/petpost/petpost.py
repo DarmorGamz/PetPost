@@ -1,11 +1,22 @@
 from fastapi import HTTPException
 import json
 import os
+import boto3
 import string
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class petpost:
     def __init__(self):
         self.filename = '/data/pets.json'
+
+        self.s3 = boto3.client('s3',
+            aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+            aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
+            region_name=os.getenv('AWS_REGION')
+        )
+        self.bucket_name = os.getenv('AWS_BUCKET_NAME')
 
         # Ensure JSON file exists
         if not os.path.exists(self.filename):
@@ -28,9 +39,12 @@ class petpost:
                     raise HTTPException(400, "Pet data required")
                 
                 # Add image to S3
-                # Get S3 image url
-                imageUrl = ""
-
+                image = varsIn['image']
+                image_key = f"pets/{image.filename}"
+                self.s3.upload_fileobj(image.file, self.bucket_name, image_key, ExtraArgs={'ContentType': image.content_type})
+                
+                # Get S3 image url (public)
+                imageUrl = f"https://{self.bucket_name}.s3.amazonaws.com/{image_key}"
                 
                 # Store JSON details on filesystem
                 with open(self.filename, 'r+') as f:
