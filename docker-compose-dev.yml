@@ -1,0 +1,46 @@
+version: '3'
+services:
+  traefik:
+    image: traefik:v2.10
+    container_name: traefik
+    ports:
+      - "80:80"
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command:
+      - --api.insecure=true
+      - --providers.docker=true
+      - "--providers.docker.exposedbydefault=false"
+      - --entrypoints.web.address=:80
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik.rule=Host(`traefik.localhost`)
+      - traefik.http.routers.traefik.service=api@internal
+      - traefik.http.routers.traefik.entrypoints=web
+  petpost-web:
+    build: 
+      context: .
+      dockerfile: Dockerfile.web.dev
+    container_name: petpost-web
+    environment:
+    - DOMAIN=${DOMAIN:-petpost.localhost}
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.petpost-web.rule=Host(`petpost.localhost`)
+      - traefik.http.routers.petpost-web.entrypoints=web
+      - traefik.http.services.petpost-web.loadbalancer.server.port=80
+  petpost-api:
+    build: 
+      context: .
+      dockerfile: Dockerfile.api.dev
+    container_name: petpost-api
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.petpost-api.rule=Host(`petpost.localhost`) && PathPrefix(`/api`)
+      - traefik.http.routers.petpost-api.entrypoints=web
+      - traefik.http.routers.petpost-api.middlewares=stripapi
+      - traefik.http.middlewares.stripapi.stripprefix.prefixes=/api
+      - traefik.http.services.petpost-api.loadbalancer.server.port=8000

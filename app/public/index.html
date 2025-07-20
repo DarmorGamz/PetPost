@@ -185,12 +185,12 @@
     </div>
 
     <script>
-        const API_URL = 'https://api.darmor.ca'; // Backend API base URL
+        const API_URL = 'http://petpost.localhost/api'; // Backend API base URL
 
         // Function to fetch and display pets
         async function fetchPets() {
             try {
-                const response = await fetch(`${API_URL}/pets`);
+                const response = await fetch(`${API_URL}/?Cmd=PetPost.Get`);
                 let pets = await response.json();
                 // If response is empty, use test list
                 if (pets.length === 0) {
@@ -227,7 +227,7 @@
             formData.append('image', document.getElementById('image').files[0]);
 
             try {
-                const response = await fetch(`${API_URL}/pets`, {
+                const response = await fetch(`${API_URL}/?Cmd=PetPost.Add`, {
                     method: 'POST',
                     body: formData
                 });
