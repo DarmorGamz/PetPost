@@ -1,13 +1,31 @@
 version: '3'
+name: petpost
 services:
-  petpost:
+  petpost-web:
     build: 
       context: .
-      dockerfile: Dockerfile
-    container_name: petpost
+      dockerfile: Dockerfile.web.prod
+    container_name: petpost-web
+    environment:
+    - DOMAIN=${DOMAIN:-petpost.darmor.ca}
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.petpost.rule=Host(`petpost.darmor.ca`)
-      - traefik.http.routers.petpost.entrypoints=web
-      - traefik.http.services.petpost.loadbalancer.server.port=80
+      - traefik.http.routers.petpost-web.rule=Host(`petpost.darmor.ca`)
+      - traefik.http.routers.petpost-web.entrypoints=web
+      - traefik.http.services.petpost-web.loadbalancer.server.port=80
+  petpost-api:
+    build: 
+      context: .
+      dockerfile: Dockerfile.api.prod
+    container_name: petpost-api
+    volumes:
+      - ./app/data/:/data
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.petpost-api.rule=Host(`petpost.darmor.ca`) && PathPrefix(`/api`)
+      - traefik.http.routers.petpost-api.entrypoints=web
+      - traefik.http.routers.petpost-api.middlewares=stripapi
+      - traefik.http.middlewares.stripapi.stripprefix.prefixes=/api
+      - traefik.http.services.petpost-api.loadbalancer.server.port=8000

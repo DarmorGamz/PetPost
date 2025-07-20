@@ -61,5 +61,18 @@ class petpost:
             
             case "Del":
                 raise HTTPException(400, "Invalid Cmd")
+            case "DelAll":
+                with open(self.filename, 'r') as f:
+                    pets = json.load(f)
+                for pet in pets:
+                    if 'imageUrl' in pet:
+                        try:
+                            key = pet['imageUrl'].split(f"https://{self.bucket_name}.s3.amazonaws.com/")[1]
+                            self.s3.delete_object(Bucket=self.bucket_name, Key=key)
+                        except IndexError:
+                            pass  # Skip invalid URL
+                with open(self.filename, 'w') as f:
+                    json.dump([], f)
+                return '', 200
             case _:
                 raise HTTPException(400, "Invalid Cmd")

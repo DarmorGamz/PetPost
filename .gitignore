@@ -7,7 +7,9 @@ pycache/
 env/
 venv/
 ENV/
-*.env
+.env
+.env-dev
+.env-prod
 
 # Node.js
 node_modules/
