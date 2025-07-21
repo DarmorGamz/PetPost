@@ -30,7 +30,12 @@
 ## Introduction
 
 #### Demo Workflow
-![Video description](https://github.com/DarmorGamz/PetPost/blob/master/.docs/functional-demo/demo.mp4)
+
+<div align="center" width="1277" height="695" > 
+  
+   [![Watch the video](https://github.com/DarmorGamz/PetPost/blob/master/.docs/functional-demo/thumbnail.png)](https://www.youtube.com/watch?v=IkeUjvT2YYQ)
+   
+</div>
 
 #### UML Workflow
 <div align="center">
